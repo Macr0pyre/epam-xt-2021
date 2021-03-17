@@ -10,20 +10,21 @@ namespace Task_1_1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Список задач и их номера:\n" +
-                "0. Выйти\n" +
-                "1. 1.1.1 Rectangle\n" +
-                "2. 1.1.2 Triangle\n" +
-                "3. 1.1.3 Another Triangle\n" +
-                "4. 1.1.4 X-mas tree\n" +
-                "5. 1.1.5 Sum of numbers\n" +
-                "6. 1.1.6 Font Adjustment\n" +
-                "7. 1.1.7 Array processing\n" +
-                "8. 1.1.8 No positive\n" +
-                "9. 1.1.9 Non-negative sum\n" +
-                "10. 1.1.10 2D array\n");
+            Console.WriteLine("Список задач и их номера:");
+            Console.WriteLine("0. Выйти");
+            Console.WriteLine("1. 1.1.1 Rectangle");
+            Console.WriteLine("2. 1.1.2 Triangle");
+            Console.WriteLine("3. 1.1.3 Another Triangle");
+            Console.WriteLine("4. 1.1.4 X-mas tree");
+            Console.WriteLine("5. 1.1.5 Sum of numbers");
+            Console.WriteLine("6. 1.1.6 Font Adjustment");
+            Console.WriteLine("7. 1.1.7 Array processing");
+            Console.WriteLine("8. 1.1.8 No positive");
+            Console.WriteLine("9. 1.1.9 Non-negative sum");
+            Console.WriteLine("10. 1.1.10 2D array");
+            Console.WriteLine();
 
-            string selection = "";
+            string selection = string.Empty;
             while (selection != "0")
             {
                 Console.WriteLine("Введите номер задачи: ");
@@ -222,17 +223,17 @@ namespace Task_1_1
                 {
                     case "1":
                         {
-                            fonts["Bold"] = fonts["Bold"] ? false : true;
+                            fonts["Bold"] = !fonts["Bold"];
                             break;
                         }
                     case "2":
                         {
-                            fonts["Italic"] = fonts["Italic"] ? false : true;
+                            fonts["Italic"] = !fonts["Italic"];
                             break;
                         }
                     case "3":
                         {
-                            fonts["Underline"] = fonts["Underline"] ? false : true;
+                            fonts["Underline"] = !fonts["Underline"];
                             break;
                         }
                 }

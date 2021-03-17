@@ -10,14 +10,20 @@ namespace Task_1_2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Список задач и их номера:\n" +
-                "0. Выйти\n" +
-                "1. 1.2.1 Averages\n" +
-                "2. 1.2.2 Doubler\n" +
-                "3. 1.2.3 Lowercase\n" +
-                "4. 1.2.4 Validator\n");
+            ShowMenu();
+        }
 
-            string selection = "";
+        static void ShowMenu()
+        {
+            Console.WriteLine("Список задач и их номера:");
+            Console.WriteLine("0. Выйти");
+            Console.WriteLine("1. 1.2.1 Averages");
+            Console.WriteLine("2. 1.2.2 Doubler");
+            Console.WriteLine("3. 1.2.3 Lowercase");
+            Console.WriteLine("4. 1.2.4 Validator");
+            Console.WriteLine();
+
+            string selection = string.Empty;
             while (selection != "0")
             {
                 Console.WriteLine("Введите номер задачи: ");

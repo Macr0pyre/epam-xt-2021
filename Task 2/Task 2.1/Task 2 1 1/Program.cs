@@ -18,7 +18,7 @@ namespace Task_2_1_1
             CustomString strr = new CustomString("ab");
             CustomString strNew = new CustomString(new char[] { 'a', 'b', 'c', 'b', 'a', '1' });
 
-            Console.WriteLine("Тестирование функциональности класса CustomString\n");
+            Console.WriteLine("Тестирование функциональности класса CustomString" + Environment.NewLine);
 
             Console.WriteLine($"Конкатенация через метод: {CustomString.Concate(str1, str2, str0, strr)}");
             Console.WriteLine($"Конкатенация через оператор: {str1 + str2 + str0 + strr}" + Environment.NewLine);
@@ -39,11 +39,11 @@ namespace Task_2_1_1
 
             //Если по заданию надо конвертацию из массива символов в свой тип, то есть просто конструктор для этого
             string convStr = new CustomString(converted).ToString();
-            Console.WriteLine($"Конвертация этого массива символов в строку (String): {convStr}\n");
+            Console.WriteLine($"Конвертация этого массива символов в строку (String): {convStr}" + Environment.NewLine);
 
             Console.WriteLine("Дополнительные функции:");
             Console.WriteLine($"Подсчет количества повторений символа {'b'} в строке {strNew}: {strNew.CountCharacters('b')}");
-            Console.WriteLine($"Создание новой строки, повторяя строку {strNew} 3 раза: {CustomString.ConcateOneLine(strNew, 3)}\n");
+            Console.WriteLine($"Создание новой строки, повторяя строку {strNew} 3 раза: {CustomString.ConcateOneLine(strNew, 3)}" + Environment.NewLine);
 
             Console.WriteLine($"Использование индексатора для взятия 1 элемента строки {strNew}: {strNew[1]}");
         }

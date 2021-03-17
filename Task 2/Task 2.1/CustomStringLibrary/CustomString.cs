@@ -71,9 +71,13 @@ namespace CustomStringLibrary
                 for (int i = 0; i < Math.Min(Line.Length, other.Line.Length); i++)
                 {
                     if (Line[i] > other.Line[i])
+                    {
                         return 1;
+                    }
                     else if (Line[i] < other.Line[i])
+                    {
                         return -1;
+                    }
                 }
                 return 0;
             }
@@ -89,7 +93,9 @@ namespace CustomStringLibrary
             for (int i = 0; i < Line.Length; i++)
             {
                 if (Line[i] == symb)
+                {
                     return i;
+                }
             }
             return -1;
         }
@@ -112,7 +118,7 @@ namespace CustomStringLibrary
         }
 
         /// <summary>
-        /// Дополнительный метод, подсчитывающий количество повторений символа в строке.
+        /// An additional method that counts repeats of character in the line.
         /// </summary>
         public int CountCharacters(char symb)
         {
@@ -120,13 +126,15 @@ namespace CustomStringLibrary
             foreach (char item in Line)
             {
                 if (item == symb)
+                {
                     cnt++;
+                }
             }
             return cnt;
         }
 
         /// <summary>
-        /// Дополнительный метод, создающий новую строку, повторяя известную строку определенное количество раз.
+        /// An additional method that creates a new line by repeating the known line from parameters a specified number of times.
         /// </summary>
         public static CustomString ConcateOneLine(CustomString value, int count)
         {
