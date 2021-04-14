@@ -23,7 +23,7 @@ namespace Task_3_3_2
         Number,
         Mixed
     }
-    public static class StringAddition
+    public static class StringExtensions
     {
         public static StringType CheckLanguage(this string text)
         {

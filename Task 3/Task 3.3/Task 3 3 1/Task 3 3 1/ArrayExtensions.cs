@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task_3_3_1
 {
-    public static class ArrayAddition
+    public static class ArrayExtensions
     {
         //Расширьте массивы чисел методом, производящим действия с каждым конкретным элементом.
         //Действие должно передаваться в метод с помощью делегата.
