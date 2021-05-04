@@ -7,9 +7,14 @@ namespace Task_4_1.UI
 {
     public class ConsoleUI
     {
-        private FIleManagementSystem _logic;
+        private IBackup _backupLogic;
+        private IObservation _observation;
 
-        public ConsoleUI() => _logic = new FIleManagementSystem();
+        public ConsoleUI()
+        {
+            _backupLogic = DependencyResolver.BackupLogic;
+            _observation = DependencyResolver.DirectoryWatcher;
+        }
 
         public void StartMenu()
         {
@@ -22,7 +27,7 @@ namespace Task_4_1.UI
                 Console.WriteLine("Указанной директории не существует");
             }
 
-            _logic.Path = path;
+            _backupLogic.Path = path;
 
             MainMenu();
         }
@@ -31,7 +36,7 @@ namespace Task_4_1.UI
         {
             Console.Clear();
 
-            Console.WriteLine(_logic.Path);
+            Console.WriteLine(_backupLogic.Path);
             Console.WriteLine();
 
             string select = string.Empty;
@@ -42,7 +47,6 @@ namespace Task_4_1.UI
                 Console.WriteLine("1. Перейти в режим наблюдения");
                 Console.WriteLine("2. Откат изменений");
                 Console.Write("Ввод: ");
-
                 select = Console.ReadLine();
 
                 switch (select)
@@ -57,25 +61,39 @@ namespace Task_4_1.UI
                         break;
                 }
 
-            } while (select != "0");
+            } while (select is not "0");
         }
 
         private void BackChanges()
         {
-            //TODO
+            var commitList = new List<DateTime>(_backupLogic.GetCommitList());
+
+
+            Console.WriteLine($"Список фиксаций({_backupLogic.Path}):");
+            for (int i = 0; i < commitList.Count; i++)
+            {
+                Console.WriteLine($"\t{i}. {commitList[i].ToString()}");
+            }
+
+            int select = ConsoleUISupporting.InputValueInRange("Ваш выбор: ", 0, commitList.Count);
+
+
+            _backupLogic.RollbackFolder(commitList[select]);
         }
 
         private void TrackingMode()
         {
-            _logic.Saved += OnSaved;
-            _logic.TrackingModeStart();
+            _observation.Saved += OnSaved;
+            _observation.Start(_backupLogic);
 
-            Console.WriteLine($"Режим наблюдения включен ({_logic.Path})");
-            Console.WriteLine("Нажмите на любую клавишу, чтобы выйти");
-            Console.ReadKey();
-            Console.WriteLine();
-
-            _logic.TrackingModeEnd();
+            using (_observation)
+            {
+                Console.WriteLine($"Режим наблюдения включен ({_backupLogic.Path})");
+                Console.WriteLine();
+                Console.WriteLine("Нажмите на любую клавишу чтобы выйти");
+                Console.ReadKey();
+                Console.WriteLine();
+            }
         }
 
         private void OnSaved(object sender)

@@ -3,19 +3,19 @@ using System.IO;
 
 namespace Task_4_1.Logic
 {
-    public class Observation
+    public class Observation : IObservation
     {
         public event Action<object> Saved = delegate { };
 
-        private Backup _backup;
+        private IBackup _backupLogic;
 
         private FileSystemWatcher _watcher;
 
-        public Observation(Backup backup) => _backup = backup;
-
-        public void Start()
+        public void Start(IBackup backupLogic)
         {
-            _watcher = new FileSystemWatcher(_backup.Path);
+            _backupLogic = backupLogic;
+
+            _watcher = new FileSystemWatcher(_backupLogic.Path);
 
             _watcher.NotifyFilter = NotifyFilters.Attributes
                                  | NotifyFilters.CreationTime
@@ -42,27 +42,31 @@ namespace Task_4_1.Logic
             _watcher.Dispose();
         }
 
+        public void Dispose()
+        {
+            End();
+        }
         private void OnRenamed(object sender, RenamedEventArgs e)
         {
-            _backup.BackupDirectory();
+            _backupLogic.BackupDirectory();
             Saved?.Invoke(this);
         }
 
         private void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            _backup.BackupDirectory();
+            _backupLogic.BackupDirectory();
             Saved?.Invoke(this);
         }
 
         private void OnCreated(object sender, FileSystemEventArgs e)
         {
-            _backup.BackupDirectory();
+            _backupLogic.BackupDirectory();
             Saved?.Invoke(this);
         }
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            _backup.BackupDirectory();
+            _backupLogic.BackupDirectory();
             Saved?.Invoke(this);
         }
     }

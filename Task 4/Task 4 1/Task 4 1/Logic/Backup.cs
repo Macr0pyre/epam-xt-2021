@@ -1,33 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Task_4_1.Logic
 {
-    public class Backup
+    public class Backup : IBackup
     {
-        public string Path { get; }
+        private DirectoryInfo _directory;
+        private DirectoryInfo _serviceDirectory;
 
-        public Backup(string path) => Path = path;
+        public string Path
+        {
+
+            get => _directory?.FullName;
+
+            set
+            {
+                if (!Directory.Exists(value))
+                    throw new IncorrectPathException("Указанный путь не существует");
+
+                _directory = new DirectoryInfo(value);
+                _serviceDirectory = new DirectoryInfo($@"{value}\.fms");
+
+                if (!_serviceDirectory.Exists)
+                {
+                    _serviceDirectory.Create();
+                    _serviceDirectory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+
+                    BackupDirectory();
+                }
+            }
+        }
 
         public void BackupDirectory()
         {
-            if (!Directory.Exists(Path))
-                throw new IncorrectPathException("Указанный путь не существует.");
+            Path ??= Directory.GetCurrentDirectory();
 
-            DirectoryInfo directory = new DirectoryInfo(Path);
-            DirectoryInfo serviceDirectory = new DirectoryInfo($@"{Path}\.fms");
+            var files = new List<BackupFile>();
 
-            if (!serviceDirectory.Exists)
-            {
-                serviceDirectory.Create();
-                serviceDirectory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            }
-
-            List<BackupFile> files = new List<BackupFile>();
-
-            foreach (var item in directory.GetFiles("*.txt", SearchOption.AllDirectories))
+            foreach (var item in _directory.GetFiles("*.txt", SearchOption.AllDirectories))
             {
                 files.Add(new BackupFile
                 {
@@ -37,10 +51,48 @@ namespace Task_4_1.Logic
                 });
             }
 
-            var backupFilePath = $@"{serviceDirectory.FullName}\{DateTime.Now.ToString().Replace(':', '-')}.json";
+            var backupFilePath = $@"{_serviceDirectory.FullName}\{DateTime.Now.ToString().Replace(':', '-')}.json";
             var backupFileContent = JsonConvert.SerializeObject(files);
 
             File.WriteAllText(backupFilePath, backupFileContent);
         }
+
+        public void RollbackFolder(DateTime dateTime)
+        {
+            Path ??= Directory.GetCurrentDirectory();
+
+            var dataPath = $@"{_serviceDirectory.FullName}\{dateTime.ToString().Replace(':', '-')}.json";
+
+            if (!File.Exists(dataPath))
+                throw new MissingBackupException("Фиксации с заданным временем не найдено");
+
+            var backupFiles
+                = JsonConvert.DeserializeObject<IEnumerable<BackupFile>>(File.ReadAllText(dataPath));
+
+            //_directory.Clean(".fms");
+            _directory.RemoveFiles("#.txt");
+
+            foreach (var item in backupFiles)
+            {
+                if (!Directory.Exists(item.Path))
+                    Directory.CreateDirectory(item.Path);
+
+                File.WriteAllText($@"{item.Path}\{item.Name}", item.Content);
+            }
+        }
+
+        public IEnumerable<DateTime> GetCommitList()
+            => _serviceDirectory?.GetFiles()
+                                .Select(item => FileNameToDateTime(item.Name));
+
+        private DateTime FileNameToDateTime(string fileName)
+        {
+            fileName = fileName.Substring(0, 19); // cut the date from the file name
+            DateTime result = DateTime.ParseExact(fileName, "dd.MM.yyyy HH-mm-ss", CultureInfo.InvariantCulture);
+
+            return result;
+        }
+
+
     }
 }
