@@ -1,0 +1,45 @@
+body {
+    background-color: #284c72;
+    text-align: center;
+}
+
+.whole {
+    position: absolute;
+    width: 600px;
+    background-color: white;
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.type1,
+.type2 {
+    position: relative;
+    display: inline-block;
+    width: 185px;
+    border-right: 1px solid #b9b8b8a1;
+    border-radius: 0px;
+    margin: 5px;
+}
+
+.type2 {
+    border-right: none;
+}
+
+button {
+    margin-bottom: 5px;
+    color: white;
+    background-color: #ff520e;
+    border-radius: 1px;
+    border-color: #ff520e;
+}
+
+h4 {
+    color: #ff520e;
+    margin: 10px;
+}
+
+img {
+    height: 60px;
+}

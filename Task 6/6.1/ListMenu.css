@@ -1,0 +1,14 @@
+.menu {
+    width: 200px;
+    background-color: #fcdf95;
+    list-style: none;
+    color: #9e1d00;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 9px;
+    line-height: 1.5;
+    font-weight: 600;
+    box-shadow: 6px 6px #9e1d00;
+    margin: 20px;
+    box-sizing: border-box;
+}
