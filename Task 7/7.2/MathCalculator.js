@@ -9,12 +9,9 @@ function calculate(expression) {
     expression = expression.split("=")[0];
 
     if (!expression.match(/\D{2,}|\.\d{1,}\./g)) {
-
-        let operators = expression.match(/[\/+*-]/g).reverse();
-
-        let operands = expression.match(/\d+\.\d+|\d+/g);
-
-        let calculationResult = calculateData(operators, operands, expression[0]);
+        const operators = expression.match(/[\/+*-]/g).reverse();
+        const operands = expression.match(/\d+\.\d+|\d+/g);
+        const calculationResult = calculateData(operators, operands, expression[0]);
 
         return fullExpression + " " + calculationResult.toPrecision(calculationResult.toString().split(/\./)[0].length + 2);
     } else {
@@ -25,26 +22,27 @@ function calculate(expression) {
 function calculateData(operators, operands, firstChar) {
     let calculationResult;
 
-    if (firstChar == "-")
+    if (firstChar == "-") {
         calculationResult = -parseFloat(operands[0]);
-    else
+    } else {
         calculationResult = parseFloat(operands[0]);
+    }
 
     operands.shift();
 
     for (var operand of operands) {
         switch (operators.pop()) {
             case "+":
-                calculationResult = calculationResult + parseFloat(operand);
+                calculationResult += parseFloat(operand);
                 break;
             case "-":
-                calculationResult = calculationResult - parseFloat(operand);
+                calculationResult -= parseFloat(operand);
                 break;
             case "/":
-                calculationResult = calculationResult / parseFloat(operand);
+                calculationResult /= parseFloat(operand);
                 break;
             case "*":
-                calculationResult = calculationResult * parseFloat(operand);
+                calculationResult *= parseFloat(operand);
                 break;
         }
     }
