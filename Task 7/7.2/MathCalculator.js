@@ -2,7 +2,7 @@ function calculate(expression) {
 
     let fullExpression = expression;
 
-    while (expression.indexOf(" ") != -1) {
+    while (expression.indexOf(" ") !== -1) {
         expression = expression.replace(" ", "");
     }
 
@@ -22,7 +22,7 @@ function calculate(expression) {
 function calculateData(operators, operands, firstChar) {
     let calculationResult;
 
-    if (firstChar == "-") {
+    if (firstChar === "-") {
         calculationResult = -parseFloat(operands[0]);
     } else {
         calculationResult = parseFloat(operands[0]);

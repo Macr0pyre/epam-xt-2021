@@ -85,7 +85,7 @@ export class Storage {
     }
 
     replaceById(id, newObject) {
-        let objectToReplace = this.searchById(id);
+        let objectToReplace = this.getById(id);
 
         if (objectToReplace != null) {
             newObject.id = id;
@@ -102,11 +102,11 @@ export class Storage {
 
 const storage = new Storage();
 
-storage.add({ id: 1, name: "Ira" });
+storage.add({ id: "", name: "Ira" });
 
-storage.add({ id: 123, name: "Alex" });
+storage.add({ id: "", name: "Alex" });
 
-storage.add({ id: 2, name: "Peppa" });
+storage.add({ id: "", name: "Peppa" });
 
 for (var elem of storage.getAll()) {
     console.log(elem);

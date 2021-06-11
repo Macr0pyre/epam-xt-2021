@@ -6,14 +6,14 @@ function removeRepeatedChars(str) {
 
     for (var word of words) {
         for (var char of word) {
-            if (countChars(word, char) > 1 && chars.indexOf(char) == -1 && !separators.includes(char)) {
+            if (countChars(word, char) > 1 && chars.indexOf(char) === -1 && !separators.includes(char)) {
                 chars.push(char);
             }
         }
     }
 
     for (var char of chars) {
-        while (str.indexOf(char) != -1) {
+        while (str.indexOf(char) !== -1) {
             str = str.replace(char, "");
         }
     }
@@ -25,7 +25,7 @@ function countChars(str, charToCount) {
     let counter = 0;
 
     for (var char of str) {
-        if (char == charToCount)
+        if (char === charToCount)
             counter++;
     }
 
